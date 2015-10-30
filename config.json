@@ -1,0 +1,72 @@
+{
+  "admins": [
+    "YOUR-USER-ID-HERE"
+  ],
+  "autoreplies": [
+    [
+      [
+        "^@[\\w\\s]+\\++$"
+      ],
+      "/karma {}"
+    ],
+    [
+      [
+        "^@[\\w\\s]+-+$"
+      ],
+      "/karma {}"
+    ],
+    [
+      [
+        "bot",
+        "robot",
+        "Yo"
+      ],
+      "/think {}"
+    ]
+  ],
+  "autoreplies_enabled": true,
+  "commands_admin": [
+    "hangouts",
+    "reload",
+    "quit",
+    "config",
+    "block",
+    "record clear"
+  ],
+  "commands_conversation_admin": [
+    "leave",
+    "echo",
+    "block"
+  ],
+  "commands_enabled": true,
+  "conversations": {
+    "CONV-ID-HERE": {
+      "autoreplies": [
+        [
+          [
+            "whistle",
+            "bot",
+            "whistlebot"
+          ],
+          "/think {}"
+        ],
+        [
+          [
+            "trash"
+          ],
+          "You're trash"
+        ]
+      ],
+      "conversation_admin": "USER-ID-HERE",
+      "forward_to": [
+        "CONV1_ID"
+      ]
+    },
+    "UgzT9p6zsO4mYBrUi2J4AaABAQ": {
+      "autoreplies_enabled": true
+    }
+  },
+  "development_mode": false,
+  "forwarding_enabled": false,
+  "rename_watching_enabled": true
+}

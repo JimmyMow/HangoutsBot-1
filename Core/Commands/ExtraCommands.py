@@ -21,6 +21,8 @@ from Core.Dispatcher import DispatcherSingleton
 from Core.Util import UtilBot
 from Libraries import Genius
 
+from .Changetip import ChangeTipHangups
+
 currently_running_reminders = []
 
 
@@ -477,3 +479,32 @@ def quote(bot, event, *args):
                 fetch) + ' of ' + str(numQuotes) + ']')
         else:
             bot.send_message(event.conv, "\"" + soup.quote.text + "\"" + ' -' + soup.author.text)
+
+@DispatcherSingleton.register
+def changetip(bot, event, *args):
+    """Changetip
+    Usage: /changetip <@first_name> or <@last_name> && the amount you'd like to tip {/changetip @brooke have a dollar}
+    Purpose: Sends a tip to another user through ChangeTip."""
+    CT = ChangeTipHangups()
+    username = ''
+    words = event.text.split(" ")
+    for word in words:
+        if word.startswith("@"):
+            username = re.sub('[^A-Za-z0-9]+', '', word)
+    if username is '':
+        bot.send_message(event.conv, "You must specify a user in the chat by putting @ before their first or last name.")
+        return
+    username_lower = username.strip().lower()
+    for u in sorted(event.conv.users, key=lambda x: x.full_name.split()[-1]):
+        if username_lower not in u.full_name.lower():
+            continue
+        return CT.process_command(bot, event, event.user_id.gaia_id, u.id_.gaia_id, event.user.first_name, u.first_name)
+
+    return bot.send_message(event.conv, "Hmmm, I couldn't find that user. Make sure everything is spelled correctly and they are in the chat.")
+
+@DispatcherSingleton.register
+def btcprice(bot, event, *args):
+    r = requests.get('https://blockchain.info/ticker')
+    data = r.json()
+    usd_price = data["USD"]
+    bot.send_message(event.conv, "Sell: $%s, Buy: $%s, Last: $%s. - Blockchain.info" % (usd_price["sell"], usd_price["buy"], usd_price["last"]))
